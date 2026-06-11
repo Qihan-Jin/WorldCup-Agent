@@ -1,5 +1,12 @@
 # MatchPilot
 
+![AI Agent](https://img.shields.io/badge/AI%20Agent-Viewing%20Planner-2A398D)
+![Portfolio MVP](https://img.shields.io/badge/Portfolio-MVP-16A34A)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=111827)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)
+![WeChat Mini Program](https://img.shields.io/badge/WeChat-Mini%20Program-07C160?logo=wechat&logoColor=white)
+![Tests](https://img.shields.io/badge/Tests-36%20passing-22C55E)
+
 MatchPilot is a portfolio MVP for an AI product manager: a mobile-first World Cup 2026 viewing planner that helps casual fans decide what to watch, understand why a match matters, and set reminders before kickoff.
 
 The repository contains two complementary deliverables:
