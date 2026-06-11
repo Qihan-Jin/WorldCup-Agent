@@ -10,6 +10,17 @@ api.getMatches(function (err, matches) {
   assert.ifError(err);
   assert.strictEqual(matches.length > 0, true);
   assert.strictEqual(matches[0].homeTeam.name, "Mexico");
+
+  var stageCounts = matches.reduce(function (counts, match) {
+    counts[match.stage] = (counts[match.stage] || 0) + 1;
+    return counts;
+  }, {});
+  assert.strictEqual(stageCounts.LAST_32, 16);
+  assert.strictEqual(stageCounts.LAST_16, 8);
+  assert.strictEqual(stageCounts.QUARTER_FINALS, 4);
+  assert.strictEqual(stageCounts.SEMI_FINALS, 2);
+  assert.strictEqual(stageCounts.THIRD_PLACE, 1);
+  assert.strictEqual(stageCounts.FINAL, 1);
 });
 
 api.getStandings(function (err, groups) {
