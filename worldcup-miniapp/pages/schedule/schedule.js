@@ -128,7 +128,7 @@ Page({
           var reminders = reminderUtil.saveReminder(JSON.parse(raw), item, sub);
           wx.setStorageSync("reminders", JSON.stringify(reminders));
           wx.showToast({
-            title: sub && sub.subscribed ? "已订阅提醒" : "已保存本地提醒",
+            title: "已保存提醒",
             icon: "success",
           });
         });

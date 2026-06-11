@@ -15,7 +15,7 @@ The launch-safe Mini Program focuses on stable utility features:
 - View knockout-stage placeholders.
 - Save local reminder preferences.
 
-AI viewing-plan and Ask AI flows are documented in the portfolio prototype, but are not part of this Mini Program launch build yet.
+AI viewing-plan and Ask AI flows are documented in the portfolio prototype, but are not part of this Mini Program launch build yet. Match statistics are also intentionally hidden until a reliable live stats source is connected.
 
 ## AppID
 

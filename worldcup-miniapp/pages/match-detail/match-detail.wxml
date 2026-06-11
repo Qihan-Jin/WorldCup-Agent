@@ -52,7 +52,7 @@
         data-key="{{item.key}}"
         bindtap="switchTab"
       >
-        {{item.key === 'overview' ? t.overview : item.key === 'lineup' ? t.lineup : t.stats}}
+        {{item.key === 'overview' ? t.overview : t.lineup}}
       </view>
     </view>
 
@@ -167,10 +167,5 @@
         </view>
       </view>
     </block>
-
-    <view wx:else class="card empty-tab">
-      <text class="card-title">{{t.stats}}</text>
-      <text class="empty-text">{{t.statsPending}}</text>
-    </view>
   </block>
 </view>

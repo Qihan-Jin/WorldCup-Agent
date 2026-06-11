@@ -20,7 +20,6 @@ Page({
     tabs: [
       { key: "overview" },
       { key: "lineup" },
-      { key: "stats" },
     ],
     teamCards: null,
     matchSquads: null,
@@ -146,7 +145,7 @@ Page({
             matchReminders: that.filterMatchReminders(reminders),
           });
           wx.showToast({
-            title: sub && sub.subscribed ? "已订阅提醒" : "已保存本地提醒",
+            title: "已保存提醒",
             icon: "success",
           });
         });
