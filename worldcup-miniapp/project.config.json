@@ -2,7 +2,7 @@
   "miniprogramRoot": "./",
   "projectname": "worldcup2026",
   "description": "2026 World Cup",
-  "appid": "wx26d74ca4a2fad79b",
+  "appid": "",
   "setting": {
     "urlCheck": false,
     "es6": true,
