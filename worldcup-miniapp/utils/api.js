@@ -8,6 +8,7 @@ var CACHE_TTL = 5 * 60 * 1000;
 
 var venues = require("../data/venues.js");
 var teams = require("../data/teams.js");
+var staticMatches = require("../data/static-matches.js");
 
 function getCached(key) {
   try {
@@ -48,18 +49,55 @@ function getMatches(cb) {
   var cached = getCached(CACHE_KEY_MATCHES);
   if (cached) { cb(null, cached); return; }
   fetchApi("competitions/WC/matches", function (err, data) {
-    if (err) { cb(err); return; }
+    if (err) {
+      cb(null, staticMatches.matches);
+      return;
+    }
     var matches = data.matches || [];
     setCache(CACHE_KEY_MATCHES, matches);
     cb(null, matches);
   });
 }
 
+function buildLocalStandings() {
+  var map = {};
+  for (var i = 0; i < teams.allTeams.length; i++) {
+    var team = teams.allTeams[i];
+    var group = team.group || "TBD";
+    if (!map[group]) map[group] = [];
+    map[group].push({
+      position: map[group].length + 1,
+      team: {
+        name: team.nameZh,
+        nameEn: team.nameEn,
+        shortName: team.nameZh,
+        tla: team.nameEn,
+        crest: team.flagUrl,
+      },
+      playedGames: 0,
+      won: 0,
+      draw: 0,
+      lost: 0,
+      goalDifference: 0,
+      points: 0,
+    });
+  }
+  var groups = [];
+  var groupKeys = Object.keys(map).sort();
+  for (var j = 0; j < groupKeys.length; j++) {
+    groups.push({ group: groupKeys[j], table: map[groupKeys[j]] });
+  }
+  return groups;
+}
+
 function getStandings(cb) {
   var cached = getCached(CACHE_KEY_STANDINGS);
   if (cached) { cb(null, cached); return; }
   fetchApi("competitions/WC/standings", function (err, data) {
-    if (err) { cb(err); return; }
+    if (err) {
+      cb(null, buildLocalStandings());
+      return;
+    }
     var groups = [];
     var standings = data.standings || [];
     for (var i = 0; i < standings.length; i++) {

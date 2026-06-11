@@ -12,7 +12,7 @@ var future = detail.buildMatchDetail({
   group: "D",
   kickoff: "06/18 04:00",
   utcDate: "2026-06-17T20:00:00Z",
-  venue: "休斯顿 · 美国",
+  venue: "休斯敦 · 美国",
 });
 
 assert.strictEqual(future.stageLabel, "小组赛 D组");

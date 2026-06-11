@@ -1,6 +1,24 @@
 var assert = require("assert");
 var api = require("../utils/api.js");
 
+global.wx = {
+  getStorageSync: function () { return ""; },
+  setStorageSync: function () {},
+};
+
+api.getMatches(function (err, matches) {
+  assert.ifError(err);
+  assert.strictEqual(matches.length > 0, true);
+  assert.strictEqual(matches[0].homeTeam.name, "Mexico");
+});
+
+api.getStandings(function (err, groups) {
+  assert.ifError(err);
+  assert.strictEqual(groups.length >= 12, true);
+  assert.strictEqual(groups[0].group, "A");
+  assert.strictEqual(groups[0].table[0].playedGames, 0);
+});
+
 var match = api.formatMatch({
   id: 1,
   homeTeam: { name: "England" },
@@ -15,6 +33,7 @@ var match = api.formatMatch({
 assert.strictEqual(match.kickoff, "06/18 04:00");
 assert.strictEqual(match.beijingDate, "2026-06-18");
 assert.strictEqual(api.getBeijingDateKey("2026-07-18T23:30:00Z"), "2026-07-19");
+assert.strictEqual(api.formatBeijingMonthDay("2026-06-17T20:00:00Z"), "6月18日");
 
 var localized = api.formatMatch({
   id: 2,
