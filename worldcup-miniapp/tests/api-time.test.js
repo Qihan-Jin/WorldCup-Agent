@@ -15,12 +15,31 @@ api.getMatches(function (err, matches) {
     counts[match.stage] = (counts[match.stage] || 0) + 1;
     return counts;
   }, {});
+  assert.strictEqual(stageCounts.GROUP_STAGE, 72);
   assert.strictEqual(stageCounts.LAST_32, 16);
   assert.strictEqual(stageCounts.LAST_16, 8);
   assert.strictEqual(stageCounts.QUARTER_FINALS, 4);
   assert.strictEqual(stageCounts.SEMI_FINALS, 2);
   assert.strictEqual(stageCounts.THIRD_PLACE, 1);
   assert.strictEqual(stageCounts.FINAL, 1);
+
+  var beijingDates = matches.reduce(function (dates, rawMatch, index) {
+    var formatted = api.formatMatch(rawMatch, index);
+    dates[formatted.beijingDate] = true;
+    return dates;
+  }, {});
+  [
+    "2026-06-21",
+    "2026-06-22",
+    "2026-06-23",
+    "2026-06-24",
+    "2026-06-25",
+    "2026-06-26",
+    "2026-06-27",
+    "2026-06-28",
+  ].forEach(function (date) {
+    assert.strictEqual(beijingDates[date], true, date + " should have at least one match");
+  });
 });
 
 api.getStandings(function (err, groups) {
