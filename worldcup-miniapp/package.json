@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/config.test.js && node tests/api-time.test.js && node tests/following.test.js && node tests/match-detail.test.js && node tests/squads.test.js"
+    "test": "node tests/config.test.js && node tests/i18n-display.test.js && node tests/api-time.test.js && node tests/following.test.js && node tests/match-detail.test.js && node tests/squads.test.js"
   },
   "keywords": [],
   "author": "",

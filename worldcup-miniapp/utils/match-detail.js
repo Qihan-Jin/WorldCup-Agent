@@ -80,8 +80,10 @@ function buildMatchDetail(match) {
     group: match.group || "",
     kickoff: match.kickoff,
     localTime: match.localTime || "",
+    localTimeEn: match.localTimeEn || "",
     utcDate: match.utcDate,
     venue: match.venue || "",
+    venueEn: match.venueEn || "",
   };
 }
 

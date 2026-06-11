@@ -30,7 +30,7 @@
           <view class="score-center">
             <text class="score-text">{{match.scoreDisplay}}</text>
             <text class="score-sub">{{t.beijingTime}} {{match.kickoff}}</text>
-            <text class="score-local" wx:if="{{match.localTime}}">{{match.localTime}}</text>
+            <text class="score-local" wx:if="{{match.localTime}}">{{lang === 'en' ? match.localTimeEn : match.localTime}}</text>
           </view>
 
           <view class="team-side">
@@ -103,11 +103,11 @@
         </view>
         <view class="info-row" wx:if="{{match.localTime}}">
           <text class="info-label">{{t.local}}</text>
-          <text class="info-value">{{match.localTime}}</text>
+          <text class="info-value">{{lang === 'en' ? match.localTimeEn : match.localTime}}</text>
         </view>
         <view class="info-row">
           <text class="info-label">{{t.venue}}</text>
-          <text class="info-value">{{match.venue || '-'}}</text>
+          <text class="info-value">{{lang === 'en' ? (match.venueEn || '-') : (match.venue || '-')}}</text>
         </view>
         <view class="info-row">
           <text class="info-label">{{t.stage}}</text>

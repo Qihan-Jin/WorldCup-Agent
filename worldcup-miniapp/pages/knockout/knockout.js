@@ -1,5 +1,6 @@
 var api = require("../../utils/api.js");
 var i18n = require("../../utils/i18n.js");
+var tabbar = require("../../utils/tabbar.js");
 
 Page({
   data: {
@@ -12,6 +13,8 @@ Page({
 
   onLoad: function () {
     var lang = wx.getStorageSync("lang") || "zh";
+    tabbar.applyLocalizedTabBar(lang);
+    tabbar.applyNavigationTitle("knockout", lang);
     this.setData({ lang: lang, t: i18n.getText(lang) });
     this.loadBracket();
   },
@@ -98,7 +101,7 @@ Page({
 
   onShareAppMessage: function () {
     return {
-      title: "2026 世界杯淘汰赛晋级图",
+      title: this.data.t.shareKnockout,
       path: "/pages/knockout/knockout",
     };
   },

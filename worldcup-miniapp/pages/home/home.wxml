@@ -58,7 +58,7 @@
             <text>  vs  </text>
             <text class="{{item.awayFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.awayTeamEn : item.awayTeam}}</text>
           </text>
-          <text class="mi-venue" wx:if="{{item.venue}}">📍 {{item.venue}}</text>
+          <text class="mi-venue" wx:if="{{item.venue}}">📍 {{lang === 'en' ? item.venueEn : item.venue}}</text>
           <text class="mi-group" wx:if="{{item.group}}">Group {{item.group}}</text>
         </view>
         <view class="match-result">
@@ -86,7 +86,7 @@
           <text class="{{item.awayFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.awayTeamEn : item.awayTeam}}</text>
         </text>
         <text class="mi-group">{{lang === 'en' ? item.stageLabelEn : item.stageLabelZh}} · {{t.beijingTime}} {{item.kickoff}}</text>
-        <text class="mi-venue" wx:if="{{item.venue}}">📍 {{item.venue}}</text>
+        <text class="mi-venue" wx:if="{{item.venue}}">📍 {{lang === 'en' ? item.venueEn : item.venue}}</text>
       </view>
       <text class="mi-bell" catchtap="setReminder" data-match="{{item}}">🔔</text>
     </view>

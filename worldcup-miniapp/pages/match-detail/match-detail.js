@@ -4,6 +4,7 @@ var teams = require("../../data/teams.js");
 var reminderUtil = require("../../utils/reminders.js");
 var squadUtil = require("../../utils/squads.js");
 var i18n = require("../../utils/i18n.js");
+var tabbar = require("../../utils/tabbar.js");
 
 Page({
   data: {
@@ -28,6 +29,7 @@ Page({
 
   onLoad: function (options) {
     var lang = wx.getStorageSync("lang") || "zh";
+    tabbar.applyNavigationTitle("detail", lang);
     this.setData({ id: options.id || "", lang: lang, t: i18n.getText(lang) });
     this.loadReminders();
     this.loadMatch();
@@ -43,7 +45,7 @@ Page({
     var that = this;
     api.getMatches(function (err, matches) {
       if (err) {
-        that.setData({ loading: false, error: "加载失败，请稍后重试" });
+        that.setData({ loading: false, error: that.data.t.loadDetailError });
         return;
       }
 
@@ -56,7 +58,7 @@ Page({
       }
 
       if (!target) {
-        that.setData({ loading: false, error: "未找到这场比赛" });
+        that.setData({ loading: false, error: that.data.t.matchNotFound });
         return;
       }
 
@@ -90,14 +92,7 @@ Page({
         return;
       }
       var diff = new Date(match.utcDate).getTime() - Date.now();
-      if (diff <= 0) {
-        that.setData({ countdown: "即将开始！" });
-        return;
-      }
-      var days = Math.floor(diff / 86400000);
-      var hours = Math.floor((diff % 86400000) / 3600000);
-      var mins = Math.floor((diff % 3600000) / 60000);
-      that.setData({ countdown: days + "天 " + hours + "小时 " + mins + "分钟" });
+      that.setData({ countdown: i18n.formatCountdown(diff, that.data.lang) });
     }, 1000);
   },
 
@@ -124,8 +119,9 @@ Page({
     var match = this.data.match;
     if (!match) return;
     var that = this;
+    var lang = this.data.lang;
     wx.showActionSheet({
-      itemList: ["提前15分钟", "提前30分钟", "提前1小时"],
+      itemList: i18n.getReminderOptions(lang),
       success: function (res) {
         var mins = res.tapIndex === 0 ? 15 : res.tapIndex === 1 ? 30 : 60;
         var item = {
@@ -135,7 +131,7 @@ Page({
           teamB: match.awayTeam,
           kickoffUtc: match.utcDate,
           minutesBefore: mins,
-          label: "提前" + mins + "分钟",
+          label: i18n.formatReminderLabel(mins, lang),
         };
         reminderUtil.requestReminderSubscription(function (_, sub) {
           var reminders = reminderUtil.saveReminder(that.data.reminders, item, sub);
@@ -145,7 +141,7 @@ Page({
             matchReminders: that.filterMatchReminders(reminders),
           });
           wx.showToast({
-            title: "已保存提醒",
+            title: that.data.t.savedReminderToast,
             icon: "success",
           });
         });
@@ -171,12 +167,14 @@ Page({
     var match = this.data.match;
     if (!match) {
       return {
-        title: "2026 世界杯赛程",
+        title: this.data.t.shareDetailFallback,
         path: "/pages/home/home",
       };
     }
     return {
-      title: match.homeTeam + " vs " + match.awayTeam + "，北京时间 " + match.kickoff,
+      title: this.data.lang === "en"
+        ? match.homeTeamEn + " vs " + match.awayTeamEn + ", Beijing time " + match.kickoff
+        : match.homeTeam + " vs " + match.awayTeam + "，北京时间 " + match.kickoff,
       path: "/pages/match-detail/match-detail?id=" + match.id,
     };
   },

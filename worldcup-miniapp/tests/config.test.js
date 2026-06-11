@@ -5,10 +5,10 @@ var i18n = require("../utils/i18n.js");
 
 var appJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../app.json"), "utf8"));
 
-assert.strictEqual(appJson.tabBar.list[0].text, "首页");
-assert.strictEqual(appJson.tabBar.list[1].text, "赛程");
-assert.strictEqual(appJson.tabBar.list[2].text, "积分");
-assert.strictEqual(appJson.tabBar.list[3].text, "淘汰赛");
+assert.strictEqual(appJson.tabBar.list[0].text, "Home");
+assert.strictEqual(appJson.tabBar.list[1].text, "Schedule");
+assert.strictEqual(appJson.tabBar.list[2].text, "Standings");
+assert.strictEqual(appJson.tabBar.list[3].text, "Knockout");
 
 var zh = i18n.getText("zh");
 var en = i18n.getText("en");

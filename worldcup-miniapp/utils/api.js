@@ -152,7 +152,12 @@ function getTodayBeijingDateKey() {
 }
 
 function formatBeijingMonthDay(utcDate) {
+  var lang = arguments.length > 1 ? arguments[1] : "zh";
   var d = getBeijingDate(utcDate);
+  if (lang === "en") {
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return months[d.getUTCMonth()] + " " + d.getUTCDate();
+  }
   return (d.getUTCMonth() + 1) + "月" + d.getUTCDate() + "日";
 }
 
@@ -184,6 +189,38 @@ function formatOffsetTime(utcDate, offsetHours) {
 
 function formatLocalTime(utcDate, venue) {
   return "当地时间 " + formatOffsetTime(utcDate, getVenueOffsetHours(venue));
+}
+
+function formatLocalTimeEn(utcDate, venue) {
+  return "Local time " + formatOffsetTime(utcDate, getVenueOffsetHours(venue));
+}
+
+function formatVenueEn(venue) {
+  if (!venue) return "";
+  var city = venue.split(" · ")[0];
+  var cityMap = {
+    "墨西哥城": "Mexico City",
+    "瓜达拉哈拉": "Guadalajara",
+    "多伦多": "Toronto",
+    "旧金山湾区": "San Francisco Bay Area",
+    "波士顿": "Boston",
+    "费城": "Philadelphia",
+    "洛杉矶": "Los Angeles",
+    "温哥华": "Vancouver",
+    "休斯顿": "Houston",
+    "大都会人寿体育场": "MetLife Stadium",
+    "蒙特雷": "Monterrey",
+    "达拉斯": "Dallas",
+    "亚特兰大": "Atlanta",
+    "迈阿密": "Miami",
+    "堪萨斯城": "Kansas City",
+    "西雅图": "Seattle",
+  };
+  var country = "";
+  if (venue.indexOf("墨西哥") !== -1) country = "Mexico";
+  else if (venue.indexOf("加拿大") !== -1) country = "Canada";
+  else if (venue.indexOf("美国") !== -1) country = "USA";
+  return (cityMap[city] || city) + (country ? " · " + country : "");
 }
 
 function normalizeTeamName(name) {
@@ -258,6 +295,7 @@ function formatMatch(m, index) {
   var home = formatTeam(m.homeTeam);
   var away = formatTeam(m.awayTeam);
   var venue = venues.getVenue(index);
+  var venueEn = formatVenueEn(venue);
   return {
     id: m.id,
     homeTeam: home.name,
@@ -278,8 +316,10 @@ function formatMatch(m, index) {
     kickoff: formatMatchTime(m.utcDate),
     beijingDate: getBeijingDateKey(m.utcDate),
     localTime: formatLocalTime(m.utcDate, venue),
+    localTimeEn: formatLocalTimeEn(m.utcDate, venue),
     utcDate: m.utcDate,
     venue: venue,
+    venueEn: venueEn,
   };
 }
 

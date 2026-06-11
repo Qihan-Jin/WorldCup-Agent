@@ -1,5 +1,6 @@
 var api = require("../../utils/api.js");
 var i18n = require("../../utils/i18n.js");
+var tabbar = require("../../utils/tabbar.js");
 
 Page({
   data: {
@@ -15,6 +16,8 @@ Page({
 
   onLoad: function () {
     var lang = wx.getStorageSync("lang") || "zh";
+    tabbar.applyLocalizedTabBar(lang);
+    tabbar.applyNavigationTitle("standings", lang);
     this.setData({ lang: lang, t: i18n.getText(lang) });
     this.loadStandings();
   },

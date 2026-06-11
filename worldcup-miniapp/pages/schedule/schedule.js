@@ -1,6 +1,7 @@
 var api = require("../../utils/api.js");
 var reminderUtil = require("../../utils/reminders.js");
 var i18n = require("../../utils/i18n.js");
+var tabbar = require("../../utils/tabbar.js");
 
 Page({
   data: {
@@ -19,6 +20,8 @@ Page({
 
   onLoad: function () {
     var lang = wx.getStorageSync("lang") || "zh";
+    tabbar.applyLocalizedTabBar(lang);
+    tabbar.applyNavigationTitle("schedule", lang);
     var dateStr = api.getTodayBeijingDateKey();
     this.setData({
       lang: lang,
@@ -33,7 +36,7 @@ Page({
     var that = this;
     api.getMatches(function (err, matches) {
       if (err) {
-        that.setData({ loading: false, error: "赛程加载失败，请稍后重试" });
+        that.setData({ loading: false, error: that.data.t.loadScheduleError });
         return;
       }
       var matchDates = {};
@@ -113,22 +116,24 @@ Page({
 
   setReminder: function (e) {
     var m = e.currentTarget.dataset.match;
+    var lang = this.data.lang;
+    var that = this;
     wx.showActionSheet({
-      itemList: ["提前15分钟", "提前30分钟", "提前1小时"],
+      itemList: i18n.getReminderOptions(lang),
       success: function (res) {
         var mins = res.tapIndex === 0 ? 15 : res.tapIndex === 1 ? 30 : 60;
         var item = {
           id: m.id + "-" + mins, matchId: m.id,
           teamA: m.homeTeam, teamB: m.awayTeam,
           kickoffUtc: m.utcDate, minutesBefore: mins,
-          label: "提前" + mins + "分钟",
+          label: i18n.formatReminderLabel(mins, lang),
         };
         reminderUtil.requestReminderSubscription(function (_, sub) {
           var raw = wx.getStorageSync("reminders") || "[]";
           var reminders = reminderUtil.saveReminder(JSON.parse(raw), item, sub);
           wx.setStorageSync("reminders", JSON.stringify(reminders));
           wx.showToast({
-            title: "已保存提醒",
+            title: that.data.t.savedReminderToast,
             icon: "success",
           });
         });
@@ -138,7 +143,7 @@ Page({
 
   onShareAppMessage: function () {
     return {
-      title: "2026 世界杯赛程｜" + this.data.selectedDate,
+      title: this.data.t.shareSchedule + " | " + this.data.selectedDate,
       path: "/pages/schedule/schedule",
     };
   },

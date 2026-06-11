@@ -39,7 +39,7 @@
 
               <view class="match-info">
                 <text class="match-date">{{lang === 'en' ? match.statusLabelEn : match.statusLabel}}</text>
-                <text class="match-venue" wx:if="{{match.venue}}">📍 {{match.venue}}</text>
+                <text class="match-venue" wx:if="{{match.venue}}">📍 {{lang === 'en' ? match.venueEn : match.venue}}</text>
               </view>
             </view>
           </view>

@@ -53,6 +53,16 @@ var t = {
     noMatchesOnDate: "当日无比赛",
     remind: "提醒",
     matchesUnit: "场",
+    loadMatchesError: "比赛数据加载失败，请稍后重试",
+    loadScheduleError: "赛程加载失败，请稍后重试",
+    loadDetailError: "加载失败，请稍后重试",
+    matchNotFound: "未找到这场比赛",
+    savedReminderToast: "已保存提醒",
+    startsSoon: "即将开始！",
+    shareHome: "2026 世界杯赛程与提醒",
+    shareSchedule: "2026 世界杯赛程",
+    shareDetailFallback: "2026 世界杯赛程",
+    shareKnockout: "2026 世界杯淘汰赛晋级图",
   },
   en: {
     appName: "World Cup 2026",
@@ -108,6 +118,16 @@ var t = {
     noMatchesOnDate: "No matches on this date",
     remind: "Remind",
     matchesUnit: "matches",
+    loadMatchesError: "Match data failed to load. Please try again later.",
+    loadScheduleError: "Schedule failed to load. Please try again later.",
+    loadDetailError: "Match detail failed to load. Please try again later.",
+    matchNotFound: "Match not found",
+    savedReminderToast: "Reminder saved",
+    startsSoon: "Starting soon!",
+    shareHome: "World Cup 2026 schedule and reminders",
+    shareSchedule: "World Cup 2026 schedule",
+    shareDetailFallback: "World Cup 2026 schedule",
+    shareKnockout: "World Cup 2026 knockout bracket",
   },
 };
 
@@ -115,4 +135,28 @@ function getText(lang) {
   return t[lang] || t.zh;
 }
 
-module.exports = { getText: getText };
+function formatCountdown(diff, lang) {
+  if (diff <= 0) return getText(lang).startsSoon;
+  var days = Math.floor(diff / 86400000);
+  var hours = Math.floor((diff % 86400000) / 3600000);
+  var mins = Math.floor((diff % 3600000) / 60000);
+  if (lang === "en") return days + "d " + hours + "h " + mins + "m";
+  return days + "天 " + hours + "小时 " + mins + "分钟";
+}
+
+function getReminderOptions(lang) {
+  if (lang === "en") return ["15 min before", "30 min before", "1 hour before"];
+  return ["提前15分钟", "提前30分钟", "提前1小时"];
+}
+
+function formatReminderLabel(mins, lang) {
+  if (lang === "en") return mins === 60 ? "1 hour before" : mins + " min before";
+  return mins === 60 ? "提前1小时" : "提前" + mins + "分钟";
+}
+
+module.exports = {
+  getText: getText,
+  formatCountdown: formatCountdown,
+  getReminderOptions: getReminderOptions,
+  formatReminderLabel: formatReminderLabel,
+};

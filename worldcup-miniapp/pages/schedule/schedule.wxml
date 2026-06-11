@@ -39,7 +39,7 @@
       <view wx:for="{{selectedMatches}}" wx:key="id" class="match-card {{item.hasFavorite ? 'favorite-match' : ''}}" bindtap="goMatchDetail" data-id="{{item.id}}">
         <view class="match-top">
           <text class="match-stage">{{lang === 'en' ? item.stageLabelEn + (item.stage === 'GROUP_STAGE' && item.group ? ' ' + item.group : '') : item.stageLabelZh + (item.stage === 'GROUP_STAGE' && item.group ? ' ' + item.group + '组' : '')}}</text>
-          <text class="match-venue" wx:if="{{item.venue}}">📍 {{item.venue}}</text>
+          <text class="match-venue" wx:if="{{item.venue}}">📍 {{lang === 'en' ? item.venueEn : item.venue}}</text>
         </view>
         <view class="match-vs">
           <text class="team-name {{item.homeFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.homeTeamEn : item.homeTeam}}</text>
