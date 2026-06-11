@@ -1,0 +1,16 @@
+{
+  "name": "worldcup-miniapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/api-time.test.js && node tests/following.test.js && node tests/match-detail.test.js && node tests/squads.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "miniprogram-api-typings": "^5.2.1"
+  }
+}

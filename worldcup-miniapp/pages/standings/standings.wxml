@@ -1,0 +1,56 @@
+<view class="container">
+  <!-- Group tabs -->
+  <scroll-view scroll-x class="group-tabs">
+    <view wx:for="{{groups}}" wx:key="group" class="group-tab {{item.group === activeGroup ? 'active' : ''}} {{item.hasFavorite ? 'favorite-group' : ''}}" bindtap="switchGroup" data-group="{{item.group}}">
+      <text>{{lang === 'en' ? t.group + ' ' + item.group : item.group + '组'}}</text>
+      <text wx:if="{{item.hasFavorite}}" class="group-badge">{{t.favoriteGroup}}</text>
+    </view>
+  </scroll-view>
+
+  <block wx:if="{{loading}}">
+    <text class="loading">{{t.loading}}</text>
+  </block>
+  <block wx:elif="{{error}}">
+    <text class="loading">{{error}}</text>
+  </block>
+  <block wx:else>
+    <block wx:if="{{activeTable.length === 0}}">
+      <text class="loading">{{t.noStandings}}</text>
+    </block>
+    <block wx:else>
+    <!-- Table -->
+    <view class="table">
+      <!-- Header -->
+      <view class="table-row header">
+        <text class="col-pos">#</text>
+        <text class="col-team">{{t.team}}</text>
+        <text class="col-stat">{{t.played}}</text>
+        <text class="col-stat">{{t.won}}</text>
+        <text class="col-stat">{{t.draw}}</text>
+        <text class="col-stat">{{t.lost}}</text>
+        <text class="col-stat">GD</text>
+        <text class="col-pts">{{t.points}}</text>
+      </view>
+      <!-- Rows -->
+      <view wx:for="{{activeTable}}" wx:key="position" class="table-row {{index <= 2 ? 'qualify' : ''}} {{item.isFavorite ? 'favorite-row' : ''}}">
+        <text class="col-pos">{{index + 1}}</text>
+        <view class="col-team">
+          <image class="team-crest" src="{{item.team.crest}}" mode="aspectFit" />
+          <text>{{lang === 'en' ? (item.team.nameEn || item.team.tla || item.team.name) : (item.team.shortName || item.team.name)}}</text>
+        </view>
+        <text class="col-stat">{{item.playedGames}}</text>
+        <text class="col-stat">{{item.won}}</text>
+        <text class="col-stat">{{item.draw}}</text>
+        <text class="col-stat">{{item.lost}}</text>
+        <text class="col-stat">{{item.goalDifference > 0 ? '+' : ''}}{{item.goalDifference}}</text>
+        <text class="col-pts">{{item.points}}</text>
+      </view>
+    </view>
+
+    <!-- Legend -->
+    <view class="legend">
+      <view class="legend-item"><view class="dot qualify-dot"></view> {{t.qualifyLegend}}</view>
+    </view>
+    </block>
+  </block>
+</view>

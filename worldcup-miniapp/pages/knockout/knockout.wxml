@@ -1,0 +1,50 @@
+<view class="container">
+  <block wx:if="{{loading}}">
+    <text class="loading">{{t.loading}}</text>
+  </block>
+  <block wx:elif="{{error}}">
+    <text class="loading">{{error}}</text>
+  </block>
+  <block wx:else>
+    <scroll-view scroll-x class="bracket-scroll" enhanced show-scrollbar="{{false}}">
+      <view class="bracket-board">
+        <view
+          wx:for="{{rounds}}"
+          wx:for-item="round"
+          wx:key="stage"
+          class="round-column stage-{{round.stage}} {{round.isFinal ? 'final-column' : ''}} {{round.isThirdPlace ? 'third-column' : ''}}"
+        >
+          <view class="round-header">
+            <text class="round-name">{{lang === 'en' ? round.nameEn : round.name}}</text>
+            <text class="round-count">{{round.matches.length}} {{t.matchesUnit}}</text>
+          </view>
+
+          <view class="round-matches">
+            <view wx:for="{{round.matches}}" wx:for-item="match" wx:key="id" class="match-node {{round.isFinal ? 'final-node' : ''}} {{match.hasFavorite ? 'favorite-match' : ''}}" bindtap="goMatchDetail" data-id="{{match.id}}">
+              <view class="connector" wx:if="{{!round.isFinal && !round.isThirdPlace}}"></view>
+
+              <view class="team-slot {{match.homeWinner ? 'winner' : ''}} {{match.homeFavorite ? 'favorite' : ''}}">
+                <text class="slot-team">{{lang === 'en' ? match.homeDisplayEn : match.homeDisplay}}</text>
+                <text class="slot-score" wx:if="{{match.status === 'FINISHED'}}">{{match.homeScore}}</text>
+              </view>
+
+              <view class="vs-divider">
+                <text>{{match.scoreDisplay}}</text>
+              </view>
+
+              <view class="team-slot {{match.awayWinner ? 'winner' : ''}} {{match.awayFavorite ? 'favorite' : ''}}">
+                <text class="slot-team">{{lang === 'en' ? match.awayDisplayEn : match.awayDisplay}}</text>
+                <text class="slot-score" wx:if="{{match.status === 'FINISHED'}}">{{match.awayScore}}</text>
+              </view>
+
+              <view class="match-info">
+                <text class="match-date">{{lang === 'en' ? match.statusLabelEn : match.statusLabel}}</text>
+                <text class="match-venue" wx:if="{{match.venue}}">📍 {{match.venue}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </block>
+</view>

@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "worldcup2026",
+  "description": "2026 World Cup",
+  "appid": "",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

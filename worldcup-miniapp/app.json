@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/language/language",
+    "pages/team-select/team-select",
+    "pages/home/home",
+    "pages/match-detail/match-detail",
+    "pages/schedule/schedule",
+    "pages/standings/standings",
+    "pages/knockout/knockout"
+  ],
+  "window": {
+    "navigationBarTitleText": "World Cup 2026",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F9FA"
+  },
+  "tabBar": {
+    "color": "#9CA3AF",
+    "selectedColor": "#2A398D",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "首页" },
+      { "pagePath": "pages/schedule/schedule", "text": "赛程" },
+      { "pagePath": "pages/standings/standings", "text": "积分" },
+      { "pagePath": "pages/knockout/knockout", "text": "淘汰赛" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

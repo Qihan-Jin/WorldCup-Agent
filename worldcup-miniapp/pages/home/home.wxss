@@ -1,0 +1,179 @@
+.container {
+  padding: 0 28rpx 120rpx;
+  background: linear-gradient(180deg, #EEF4FF 0%, var(--bg) 360rpx);
+  min-height: 100vh;
+}
+
+.hero {
+  position: relative;
+  margin: 0 0 24rpx;
+  padding: 40rpx 34rpx;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(246, 196, 83, 0.32) 0%, rgba(246, 196, 83, 0) 30%),
+    linear-gradient(135deg, var(--blue2) 0%, var(--blue) 58%, var(--green) 100%);
+  border-radius: 0 0 28rpx 28rpx;
+  color: #fff;
+  box-shadow: var(--shadow-strong);
+  overflow: hidden;
+}
+
+.hero-flag-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.72;
+}
+
+.hero-shade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, rgba(8, 14, 28, 0.78), rgba(8, 14, 28, 0.5) 58%, rgba(8, 14, 28, 0.22));
+}
+
+.hero-row { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-start; }
+.hero-left { flex: 1; }
+.hero-greeting { font-size: 22rpx; opacity: 0.74; letter-spacing: 3rpx; }
+.hero-team { display: block; font-size: 52rpx; font-weight: 800; margin: 8rpx 0 4rpx; }
+.hero-change { font-size: 22rpx; color: rgba(255,255,255,0.72); display: block; margin-bottom: 16rpx; }
+.hero-next { font-size: 22rpx; opacity: 0.74; display: block; }
+.hero-vs { font-size: 28rpx; font-weight: 700; margin: 4rpx 0 12rpx; display: block; }
+.hero-countdown {
+  display: inline-block;
+  background: rgba(201, 31, 53, 0.88);
+  border: 1rpx solid rgba(255,255,255,0.22);
+  border-radius: 12rpx;
+  padding: 8rpx 18rpx;
+  font-size: 22rpx;
+  box-shadow: 0 8rpx 24rpx rgba(92, 16, 30, 0.18);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.quick-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 24rpx 12rpx;
+  background: var(--card);
+  border: 1rpx solid rgba(18, 63, 134, 0.08);
+  border-radius: 18rpx;
+  box-shadow: var(--shadow);
+  font-size: 22rpx;
+  color: var(--blue);
+  font-weight: 600;
+}
+.quick-icon { font-size: 40rpx; }
+
+.card {
+  background: var(--card);
+  border-radius: 20rpx;
+  padding: 26rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid rgba(18, 63, 134, 0.06);
+  box-shadow: var(--shadow);
+}
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.card-title { font-size: 28rpx; font-weight: 800; color: var(--blue); }
+.card-date { font-size: 24rpx; color: var(--text3); }
+.card-empty { color: var(--text3); font-size: 24rpx; text-align: center; padding: 28rpx 0; }
+
+.match-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--border);
+}
+.match-item:last-child { border-bottom: none; }
+.match-item.favorite-match {
+  margin: 0 -10rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  background: linear-gradient(90deg, var(--soft-gold), rgba(255,255,255,0));
+  border-radius: 12rpx;
+}
+.match-info { flex: 1; }
+.mi-teams { font-size: 26rpx; font-weight: 700; color: var(--text); display: block; }
+.favorite-team { color: var(--red); }
+.mi-group, .mi-venue { font-size: 20rpx; color: var(--text3); display: block; margin-top: 2rpx; }
+.match-result { display: flex; align-items: center; gap: 10rpx; }
+.mi-score { font-size: 30rpx; font-weight: 800; color: var(--red); }
+.mi-status { font-size: 18rpx; padding: 2rpx 8rpx; border-radius: 6rpx; }
+.mi-status.done { background: var(--soft-green); color: var(--green); }
+.mi-time { font-size: 24rpx; color: var(--blue); font-weight: 700; }
+.mi-bell { font-size: 30rpx; padding: 8rpx; color: var(--red); }
+
+.reminders-header {
+  margin-bottom: 8rpx;
+}
+
+.reminder-item {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid var(--border);
+}
+
+.reminder-item:last-child {
+  border-bottom: none;
+}
+
+.reminder-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.reminder-teams {
+  display: block;
+  color: var(--text);
+  font-size: 25rpx;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.reminder-meta {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-top: 8rpx;
+}
+
+.reminder-label {
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: var(--soft-red);
+  color: var(--red);
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.reminder-status {
+  color: var(--text3);
+  font-size: 21rpx;
+}
+
+.reminder-delete {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #F4F6FA;
+  color: var(--text3);
+  font-size: 34rpx;
+  line-height: 1;
+}

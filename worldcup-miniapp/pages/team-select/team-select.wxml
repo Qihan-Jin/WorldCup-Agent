@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="header">
+    <text class="title">{{t.chooseTeam}}</text>
+    <text class="desc">{{t.chooseTeamDesc}}</text>
+  </view>
+
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      placeholder="{{t.searchPlaceholder}}"
+      placeholder-class="search-placeholder"
+      value="{{searchText}}"
+      bindinput="onSearch"
+    />
+  </view>
+
+  <scroll-view scroll-y class="team-grid">
+    <view
+      wx:for="{{filteredTeams}}"
+      wx:key="nameEn"
+      class="team-card {{item.selected ? 'selected' : ''}}"
+      bindtap="selectTeam"
+      data-team="{{item.nameEn}}"
+    >
+      <image class="team-flag" src="{{item.flagUrl}}" mode="aspectFit" />
+      <text class="team-name">{{lang === 'zh' ? item.nameZh : item.nameEn}}</text>
+      <text class="team-group">Group {{item.group}}</text>
+      <view wx:if="{{item.selected}}" class="check-mark">✓</view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar" wx:if="{{selectedTeam}}">
+    <button class="confirm-btn active" bindtap="confirmTeam">
+      {{t.confirmTeam}}
+    </button>
+  </view>
+</view>

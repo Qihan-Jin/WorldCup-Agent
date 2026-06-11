@@ -1,0 +1,176 @@
+<view class="container">
+  <block wx:if="{{loading}}">
+    <text class="loading">{{t.loading}}</text>
+  </block>
+
+  <block wx:elif="{{error}}">
+    <view class="empty-card">
+      <text>{{error}}</text>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="scoreboard">
+      <image wx:if="{{teamFlagUrl}}" class="hero-flag-bg" src="{{teamFlagUrl}}" mode="aspectFill" />
+      <view class="hero-shade"></view>
+
+      <view class="score-content">
+        <view class="match-meta">
+          <text>{{lang === 'en' ? match.stageLabelEn : match.stageLabel}}</text>
+          <text class="status-pill">{{lang === 'en' ? match.statusLabelEn : match.statusLabel}}</text>
+        </view>
+
+        <view class="score-main">
+          <view class="team-side">
+            <image wx:if="{{teamCards.home.flagUrl}}" class="team-flag" src="{{teamCards.home.flagUrl}}" mode="aspectFit" />
+            <text class="team-name {{match.homeWinner ? 'winner' : ''}}">{{lang === 'en' ? match.homeTeamEn : match.homeTeam}}</text>
+            <text wx:if="{{teamCards.home.isFavorite}}" class="favorite-tag">{{t.favoriteBadge}}</text>
+          </view>
+
+          <view class="score-center">
+            <text class="score-text">{{match.scoreDisplay}}</text>
+            <text class="score-sub">{{t.beijingTime}} {{match.kickoff}}</text>
+            <text class="score-local" wx:if="{{match.localTime}}">{{match.localTime}}</text>
+          </view>
+
+          <view class="team-side">
+            <image wx:if="{{teamCards.away.flagUrl}}" class="team-flag" src="{{teamCards.away.flagUrl}}" mode="aspectFit" />
+            <text class="team-name {{match.awayWinner ? 'winner' : ''}}">{{lang === 'en' ? match.awayTeamEn : match.awayTeam}}</text>
+            <text wx:if="{{teamCards.away.isFavorite}}" class="favorite-tag">{{t.favoriteBadge}}</text>
+          </view>
+        </view>
+
+        <text class="countdown" wx:if="{{countdown}}">⏰ {{countdown}}</text>
+      </view>
+    </view>
+
+    <view class="tabs">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        class="tab {{activeTab === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="switchTab"
+      >
+        {{item.key === 'overview' ? t.overview : item.key === 'lineup' ? t.lineup : t.stats}}
+      </view>
+    </view>
+
+    <block wx:if="{{activeTab === 'overview'}}">
+      <view class="actions">
+        <button class="remind-btn" bindtap="setReminder">🔔 {{t.setReminder}}</button>
+        <button class="outline-btn" bindtap="goSchedule">{{t.viewSchedule}}</button>
+      </view>
+
+      <view class="card">
+        <view class="card-head">
+          <text class="card-title">{{t.reminders}}</text>
+          <text class="card-action" bindtap="setReminder">{{t.add}}</text>
+        </view>
+        <block wx:if="{{matchReminders.length > 0}}">
+          <view wx:for="{{matchReminders}}" wx:key="id" class="reminder-row">
+            <view class="reminder-main">
+              <text class="reminder-label">{{item.label}}</text>
+              <text class="reminder-status">{{item.subscribed ? t.subscribedReminder : t.localReminder}}</text>
+            </view>
+            <text class="reminder-del" data-id="{{item.id}}" bindtap="deleteReminder">{{t.delete}}</text>
+          </view>
+        </block>
+        <text wx:else class="empty-text">{{t.noReminder}}</text>
+      </view>
+
+      <view class="card">
+        <text class="card-title">{{t.bothTeams}}</text>
+        <view class="team-cards">
+          <view class="mini-team">
+            <image wx:if="{{teamCards.home.flagUrl}}" class="mini-flag" src="{{teamCards.home.flagUrl}}" mode="aspectFit" />
+            <text class="mini-name">{{lang === 'en' ? match.homeTeamEn : teamCards.home.name}}</text>
+            <text class="mini-group">{{t.group}} {{teamCards.home.group || '-'}}</text>
+          </view>
+          <view class="mini-team">
+            <image wx:if="{{teamCards.away.flagUrl}}" class="mini-flag" src="{{teamCards.away.flagUrl}}" mode="aspectFit" />
+            <text class="mini-name">{{lang === 'en' ? match.awayTeamEn : teamCards.away.name}}</text>
+            <text class="mini-group">{{t.group}} {{teamCards.away.group || '-'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="card">
+        <text class="card-title">{{t.matchInfo}}</text>
+        <view class="info-row">
+          <text class="info-label">{{t.time}}</text>
+          <text class="info-value">{{t.beijingTime}} {{match.kickoff}}</text>
+        </view>
+        <view class="info-row" wx:if="{{match.localTime}}">
+          <text class="info-label">{{t.local}}</text>
+          <text class="info-value">{{match.localTime}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">{{t.venue}}</text>
+          <text class="info-value">{{match.venue || '-'}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">{{t.stage}}</text>
+          <text class="info-value">{{lang === 'en' ? match.stageLabelEn : match.stageLabel}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">{{t.status}}</text>
+          <text class="info-value">{{lang === 'en' ? match.statusLabelEn : match.statusLabel}}</text>
+        </view>
+      </view>
+    </block>
+
+    <block wx:elif="{{activeTab === 'lineup'}}">
+      <view class="lineup-note">
+        <text>{{t.squadNote}}</text>
+      </view>
+
+      <view class="squad-columns">
+        <view class="squad-card">
+          <view class="squad-head">
+            <image wx:if="{{matchSquads.home.flagUrl}}" class="squad-flag" src="{{matchSquads.home.flagUrl}}" mode="aspectFit" />
+            <text class="squad-title">{{matchSquads.home.teamName}}</text>
+          </view>
+          <block wx:if="{{matchSquads.home.hasData}}">
+            <view wx:for="{{matchSquads.home.groups}}" wx:for-item="group" wx:key="key" wx:if="{{group.players.length > 0}}" class="position-group">
+              <text class="position-title">{{group.label}}</text>
+              <view wx:for="{{group.players}}" wx:for-item="player" wx:key="name" class="player-row">
+                <text class="player-number">{{player.number || '-'}}</text>
+                <view class="player-main">
+                  <text class="player-name">{{player.name}}</text>
+                  <text class="player-club">{{player.club || ''}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+          <text wx:else class="empty-text">{{t.squadPending}}</text>
+        </view>
+
+        <view class="squad-card">
+          <view class="squad-head">
+            <image wx:if="{{matchSquads.away.flagUrl}}" class="squad-flag" src="{{matchSquads.away.flagUrl}}" mode="aspectFit" />
+            <text class="squad-title">{{matchSquads.away.teamName}}</text>
+          </view>
+          <block wx:if="{{matchSquads.away.hasData}}">
+            <view wx:for="{{matchSquads.away.groups}}" wx:for-item="group" wx:key="key" wx:if="{{group.players.length > 0}}" class="position-group">
+              <text class="position-title">{{group.label}}</text>
+              <view wx:for="{{group.players}}" wx:for-item="player" wx:key="name" class="player-row">
+                <text class="player-number">{{player.number || '-'}}</text>
+                <view class="player-main">
+                  <text class="player-name">{{player.name}}</text>
+                  <text class="player-club">{{player.club || ''}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+          <text wx:else class="empty-text">{{t.squadPending}}</text>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card empty-tab">
+      <text class="card-title">{{t.stats}}</text>
+      <text class="empty-text">{{t.statsPending}}</text>
+    </view>
+  </block>
+</view>

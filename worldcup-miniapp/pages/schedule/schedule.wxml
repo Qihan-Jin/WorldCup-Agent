@@ -1,0 +1,61 @@
+<view class="container">
+  <!-- 日历 -->
+  <view class="calendar">
+    <view class="cal-header">
+      <text class="cal-nav" bindtap="prevMonth">◀</text>
+      <text class="cal-title">{{lang === 'en' ? calYear + '/' + calMonth : calYear + '年' + calMonth + '月'}}</text>
+      <text class="cal-nav" bindtap="nextMonth">▶</text>
+    </view>
+    <view class="cal-weekdays">
+      <text wx:for="{{weekdays}}" wx:key="*this" class="cal-wd">{{item}}</text>
+    </view>
+    <view class="cal-grid">
+      <view
+        wx:for="{{calDays}}"
+        wx:key="index"
+        class="cal-day {{item.isToday ? 'today' : ''}} {{item.hasMatch ? 'has-match' : ''}} {{item.date === selectedDate ? 'selected' : ''}} {{!item.inMonth ? 'out' : ''}}"
+        bindtap="selectDate"
+        data-date="{{item.date}}"
+      >
+        <text>{{item.day}}</text>
+        <view wx:if="{{item.hasMatch && item.inMonth}}" class="cal-dot"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 比赛列表 -->
+  <block wx:if="{{loading}}">
+    <text class="loading">{{t.loading}}</text>
+  </block>
+  <block wx:elif="{{error}}">
+    <text class="empty">{{error}}</text>
+  </block>
+  <block wx:else>
+    <text class="date-label">{{selectedDate}}</text>
+    <block wx:if="{{selectedMatches.length === 0}}">
+      <text class="empty">{{t.noMatchesOnDate}}</text>
+    </block>
+    <block wx:else>
+      <view wx:for="{{selectedMatches}}" wx:key="id" class="match-card {{item.hasFavorite ? 'favorite-match' : ''}}" bindtap="goMatchDetail" data-id="{{item.id}}">
+        <view class="match-top">
+          <text class="match-stage">{{lang === 'en' ? item.stageLabelEn + (item.stage === 'GROUP_STAGE' && item.group ? ' ' + item.group : '') : item.stageLabelZh + (item.stage === 'GROUP_STAGE' && item.group ? ' ' + item.group + '组' : '')}}</text>
+          <text class="match-venue" wx:if="{{item.venue}}">📍 {{item.venue}}</text>
+        </view>
+        <view class="match-vs">
+          <text class="team-name {{item.homeFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.homeTeamEn : item.homeTeam}}</text>
+          <block wx:if="{{item.status === 'FINISHED'}}">
+            <text class="score">{{item.homeScore}} - {{item.awayScore}}</text>
+          </block>
+          <block wx:else>
+            <text class="vs-text">vs</text>
+          </block>
+          <text class="team-name {{item.awayFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.awayTeamEn : item.awayTeam}}</text>
+        </view>
+        <view class="match-bottom">
+          <text class="match-time">{{t.beijingTime}} {{item.kickoff}}</text>
+          <text class="remind-action" catchtap="setReminder" data-match="{{item}}">🔔 {{t.remind}}</text>
+        </view>
+      </view>
+    </block>
+  </block>
+</view>

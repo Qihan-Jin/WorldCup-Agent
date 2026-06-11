@@ -1,0 +1,111 @@
+<view class="container">
+  <!-- Hero -->
+  <view class="hero">
+    <image wx:if="{{teamFlagUrl}}" class="hero-flag-bg" src="{{teamFlagUrl}}" mode="aspectFill" />
+    <view class="hero-shade"></view>
+    <view class="hero-row">
+      <view class="hero-left">
+        <text class="hero-greeting">{{t.myTeam}}</text>
+        <text class="hero-team">{{teamName || t.notSelected}}</text>
+        <text class="hero-change" bindtap="changeTeam">{{t.changeTeam}} ›</text>
+        <block wx:if="{{nextMatch}}">
+          <text class="hero-next">{{t.nextMatch}} {{t.beijingTime}} {{nextMatch.kickoff}}</text>
+          <text class="hero-vs">{{lang === 'en' ? nextMatch.homeTeamEn : nextMatch.homeTeam}} vs {{lang === 'en' ? nextMatch.awayTeamEn : nextMatch.awayTeam}}</text>
+          <view class="hero-countdown" wx:if="{{countdown}}">
+            <text>⏰ {{countdown}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-actions">
+    <view class="quick-btn" bindtap="goSchedule">
+      <text class="quick-icon">📅</text>
+      <text>{{t.allSchedule}}</text>
+    </view>
+    <view class="quick-btn" bindtap="goStandings">
+      <text class="quick-icon">📊</text>
+      <text>{{t.standings}}</text>
+    </view>
+    <view class="quick-btn" bindtap="goKnockout">
+      <text class="quick-icon">🏆</text>
+      <text>{{t.knockout}}</text>
+    </view>
+  </view>
+
+  <!-- 今日比赛 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">📅 {{t.todayMatches}}</text>
+      <text class="card-date">{{todayDate}}</text>
+    </view>
+    <block wx:if="{{loading}}">
+      <text class="card-empty">{{t.loading}}</text>
+    </block>
+    <block wx:elif="{{error}}">
+      <text class="card-empty">{{error}}</text>
+    </block>
+    <block wx:elif="{{todayMatches.length === 0}}">
+      <text class="card-empty">{{t.noMatchesToday}}</text>
+    </block>
+    <block wx:else>
+      <view wx:for="{{todayMatches}}" wx:key="id" class="match-item {{item.hasFavorite ? 'favorite-match' : ''}}" bindtap="goMatchDetail" data-id="{{item.id}}">
+        <view class="match-info">
+          <text class="mi-teams">
+            <text class="{{item.homeFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.homeTeamEn : item.homeTeam}}</text>
+            <text>  vs  </text>
+            <text class="{{item.awayFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.awayTeamEn : item.awayTeam}}</text>
+          </text>
+          <text class="mi-venue" wx:if="{{item.venue}}">📍 {{item.venue}}</text>
+          <text class="mi-group" wx:if="{{item.group}}">Group {{item.group}}</text>
+        </view>
+        <view class="match-result">
+          <block wx:if="{{item.status === 'FINISHED'}}">
+            <text class="mi-score">{{item.homeScore}}-{{item.awayScore}}</text>
+            <text class="mi-status done">FT</text>
+          </block>
+          <block wx:else>
+            <text class="mi-time">{{item.kickoff}}</text>
+          </block>
+        </view>
+        <text class="mi-bell" catchtap="setReminder" data-match="{{item}}">🔔</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 主队赛程 -->
+  <view class="card" wx:if="{{myMatches.length > 0}}">
+    <text class="card-title">📋 {{t.myTeamSchedule}}</text>
+    <view wx:for="{{myMatches}}" wx:key="id" class="match-item {{item.hasFavorite ? 'favorite-match' : ''}}" bindtap="goMatchDetail" data-id="{{item.id}}">
+      <view class="match-info">
+        <text class="mi-teams">
+          <text class="{{item.homeFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.homeTeamEn : item.homeTeam}}</text>
+          <text>  vs  </text>
+          <text class="{{item.awayFavorite ? 'favorite-team' : ''}}">{{lang === 'en' ? item.awayTeamEn : item.awayTeam}}</text>
+        </text>
+        <text class="mi-group">{{lang === 'en' ? item.stageLabelEn : item.stageLabelZh}} · {{t.beijingTime}} {{item.kickoff}}</text>
+        <text class="mi-venue" wx:if="{{item.venue}}">📍 {{item.venue}}</text>
+      </view>
+      <text class="mi-bell" catchtap="setReminder" data-match="{{item}}">🔔</text>
+    </view>
+  </view>
+
+  <!-- 提醒 -->
+  <view class="card" wx:if="{{reminders.length > 0}}">
+    <view class="card-header reminders-header">
+      <text class="card-title">🔔 {{t.reminders}}</text>
+    </view>
+    <view wx:for="{{reminders}}" wx:key="id" class="reminder-item">
+      <view class="reminder-main">
+        <text class="reminder-teams">{{item.teamA}} vs {{item.teamB}}</text>
+        <view class="reminder-meta">
+          <text class="reminder-label">{{item.label}}</text>
+          <text class="reminder-status">{{item.subscribed ? t.subscribedReminder : t.localReminder}}</text>
+        </view>
+      </view>
+      <text class="reminder-delete" bindtap="deleteReminder" data-id="{{item.id}}">×</text>
+    </view>
+  </view>
+</view>

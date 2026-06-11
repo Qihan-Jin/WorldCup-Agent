@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="logo-stage">
+    <view class="logo-ring">
+      <image class="worldcup-logo" src="https://crests.football-data.org/wm26.png" mode="aspectFit" />
+    </view>
+  </view>
+
+  <text class="title">2026 世界杯</text>
+  <text class="subtitle">June 11 — July 19</text>
+
+  <view class="lang-buttons">
+    <button class="lang-btn" bindtap="selectChinese">
+      <text class="lang-flag">🇨🇳</text>
+      <text class="lang-label">中文</text>
+    </button>
+    <button class="lang-btn" bindtap="selectEnglish">
+      <text class="lang-flag">🇺🇸</text>
+      <text class="lang-label">English</text>
+    </button>
+  </view>
+</view>

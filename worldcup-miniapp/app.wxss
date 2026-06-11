@@ -1,0 +1,29 @@
+/* 2026 World Cup theme */
+page {
+  --blue: #123F86;
+  --blue2: #0B2F6B;
+  --red: #C91F35;
+  --green: #0F7A4F;
+  --gold: #F6C453;
+  --dark: #16213F;
+  --gray: #D7DCE6;
+
+  --bg: #F4F7FB;
+  --card: #FFFFFF;
+  --text: #172033;
+  --text2: #667085;
+  --text3: #98A2B3;
+  --border: #E3E8F1;
+  --soft-blue: #EAF1FF;
+  --soft-green: #E8F6EF;
+  --soft-red: #FCECEF;
+  --soft-gold: #FFF5D8;
+  --shadow: 0 10rpx 32rpx rgba(18, 63, 134, 0.08);
+  --shadow-strong: 0 20rpx 56rpx rgba(12, 38, 82, 0.14);
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
